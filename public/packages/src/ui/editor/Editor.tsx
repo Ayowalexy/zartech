@@ -130,13 +130,13 @@ export const AppEditor = (props: AppEditorProps) => {
           marginTop: '200px',
         }}
       />
-      <div className="absolute top-[5.5em]">
+      <div className="absolute top-[9em] lg:top-[5.5em]">
         <textarea
           value={values.title}
           name="title"
           onChange={handleChange}
           onBlur={handleBlur}
-          className="w-full text-[3.5em] leading-[1em] text-black font-bold focus:border-none "
+          className="w-full text-[3em] lg:text-[3.5em] leading-[1em] text-black font-bold focus:border-none "
           placeholder="Enter title"
         />
         <input
@@ -144,7 +144,7 @@ export const AppEditor = (props: AppEditorProps) => {
           name="description"
           onChange={handleChange}
           onBlur={handleBlur}
-          className=""
+          className="w-full"
           placeholder="Enter your subtitle"
         />
       </div>

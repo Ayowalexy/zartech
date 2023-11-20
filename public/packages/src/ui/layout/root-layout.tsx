@@ -17,7 +17,7 @@ export const AppRootLayout: React.FC<RootLayoutProps> = ({
   return (
     <div className="w-full">
       {<Header type={type} />}
-      <div className="pt-[80px]">{children}</div>
+      <div className="pt-[40px]">{children}</div>
     </div>
   );
 };
