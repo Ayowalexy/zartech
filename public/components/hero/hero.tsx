@@ -23,7 +23,7 @@ export const Hero = () => {
         className="w-full border-b-black border-b h-[400px] px-4 lg:px-20 bg-primary gap-7 flex flex-col items-start  justify-center"
       >
         <h3
-          className={`${agina.className} leading-[1em] font-bold text-white text-[6rem]`}
+          className={`${agina.className} leading-[1em] font-bold text-white text-[4rem] lg:text-[6rem]`}
         >
           Stay Curious
         </h3>
