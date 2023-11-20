@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --vinesia-bg-primary: #A22042;
+  --vinesia-text-secondary: #6B6B6B;
+}
+
+.btn {
+  transition: ease all 500ms;
+}
