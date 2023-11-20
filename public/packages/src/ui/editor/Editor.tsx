@@ -1,44 +1,40 @@
-'use client';
-import { useState, useEffect } from 'react';
+"use client";
+import { useState, useEffect } from "react";
 import {
   EditorState,
   convertToRaw,
   ContentState,
   AtomicBlockUtils,
-} from 'draft-js';
-import dynamic from 'next/dynamic';
-import draftToHtml from 'draftjs-to-html';
-import 'node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { useFormik } from 'formik';
-import { PostInterface } from '../../store/post/interface';
-import { PostValidationSchema } from '../../validations';
-import { Button } from '../button';
-import { useRouter } from 'next/navigation';
+} from "draft-js";
+import dynamic from "next/dynamic";
+import draftToHtml from "draftjs-to-html";
+import "node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { useFormik } from "formik";
+import { PostInterface } from "../../store/post/interface";
+import { PostValidationSchema } from "../../validations";
+import { Button } from "../button";
+import { useRouter } from "next/navigation";
 import {
   Dialog,
   DialogContent,
   DialogTrigger,
   DialogFooter,
-} from '../dialog/Dialog';
-import { usePostMutation, useEditMutation } from '../../store/post/api';
-
+} from "../dialog/Dialog";
+import { usePostMutation, useEditMutation } from "../../store/post/api";
 
 declare type EditorStateProp = typeof import("draft-js");
-declare type EditorProps = typeof import('react-draft-wysiwyg')
-
-
-
+declare type EditorProps = typeof import("react-draft-wysiwyg");
 
 const htmlToDraft =
-  typeof window === 'object' && require('html-to-draftjs').default;
+  typeof window === "object" && require("html-to-draftjs").default;
 
 const Editor = dynamic<EditorProps>(
-  () => import('react-draft-wysiwyg').then((mod) => mod.Editor),
+  () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
   { ssr: false }
 );
 
 interface AppEditorProps extends Partial<PostInterface> {
-  action: 'editing' | 'creating';
+  action: "editing" | "creating";
 }
 
 export const AppEditor = (props: AppEditorProps) => {
@@ -59,19 +55,19 @@ export const AppEditor = (props: AppEditorProps) => {
     setFieldValue,
   } = useFormik<PostInterface>({
     initialValues: {
-      author: '',
-      description: '',
-      title: '',
-      content: '',
+      author: "",
+      description: "",
+      title: "",
+      content: "",
     },
     validationSchema: PostValidationSchema,
     onSubmit: (values) => {
-      if (props.action === 'creating') {
+      if (props.action === "creating") {
         createPost(values)
           .unwrap()
           .then((res) => {
             console.log(res);
-            router.push('/');
+            router.push("/");
           })
           .catch((e) => console.log(e));
       } else {
@@ -82,7 +78,7 @@ export const AppEditor = (props: AppEditorProps) => {
           .unwrap()
           .then((res) => {
             console.log(res);
-            router.push('/');
+            router.push("/");
           })
           .catch((e) => console.log(e));
       }
@@ -91,10 +87,10 @@ export const AppEditor = (props: AppEditorProps) => {
 
   useEffect(() => {
     if (props?.content && props?.description && props?.title) {
-      setFieldValue('title', props.title);
-      setFieldValue('description', props.description);
-      setFieldValue('content', props.content);
-      setFieldValue('author', props.author);
+      setFieldValue("title", props.title);
+      setFieldValue("description", props.description);
+      setFieldValue("content", props.content);
+      setFieldValue("author", props.author);
       let currentContent = `${draftToHtml(
         convertToRaw(editorState.getCurrentContent())
       )}`;
@@ -120,14 +116,14 @@ export const AppEditor = (props: AppEditorProps) => {
         placeholder="Start writing your post"
         onContentStateChange={(e: any) => {
           setFieldValue(
-            'content',
+            "content",
             draftToHtml(convertToRaw(editorState.getCurrentContent()))
           );
         }}
         editorStyle={{
-          color: '#000',
+          color: "#000",
           fontWeight: 300,
-          marginTop: '200px',
+          marginTop: "200px",
         }}
       />
       <div className="absolute top-[9em] lg:top-[5.5em]">
@@ -151,7 +147,7 @@ export const AppEditor = (props: AppEditorProps) => {
       <Dialog>
         <DialogTrigger>
           <Button color="secondary" size="lg">
-            {props.action === 'creating' ? 'Publish' : 'Edit post'}
+            {props.action === "creating" ? "Publish" : "Edit post"}
           </Button>
         </DialogTrigger>
         <DialogContent>
@@ -165,6 +161,16 @@ export const AppEditor = (props: AppEditorProps) => {
               className="w-full h-[50px] my-4 border border-black rounded-sm pl-2"
               placeholder="Enter name"
             />
+            <div>
+              {(!!errors.description && touched.description) &&
+                (!!errors.content && touched.content) &&
+                (!!errors.title && touched.title) &&
+                (!!errors.author && touched.author) && (
+                  <p className="text-[red] text-light text-xs">
+                    One or more fields are empty
+                  </p>
+                )}
+            </div>
             <Button
               loading={creatingPost || editingPost}
               onClick={() => handleSubmit()}

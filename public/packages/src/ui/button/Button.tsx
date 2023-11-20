@@ -19,7 +19,7 @@ export type ButtonBaseProps = {
   };
 
 const buttonClasses = cva(
-  'whitespace-nowrap inline-flex items-center text-sm font-medium  rounded-md transition-colors disabled:cursor-not-allowed',
+  'whitespace-nowrap relative inline-flex items-center text-sm font-medium  rounded-md transition-colors disabled:cursor-not-allowed',
   {
     variants: {
       intent: {
